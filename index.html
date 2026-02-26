@@ -1,0 +1,1123 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding MAM — Comando Social</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060606;
+  --surface: #111111;
+  --surface2: #1a1a1a;
+  --border: #2a2a2a;
+  --accent: #FF3333;
+  --accent2: #FF6B6B;
+  --text: #ffffff;
+  --text2: #a0a0a0;
+  --text3: #666666;
+  --success: #4CAF50;
+  --warning: #FFB800;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.noise {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  animation: fadeIn 0.8s ease;
+}
+
+.header .badge {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  font-family: 'Sora', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+
+.header h1 span { color: var(--accent); }
+
+.header p {
+  color: var(--text2);
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Progress */
+.progress-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  padding: 16px 0 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.progress-track {
+  width: 100%;
+  height: 4px;
+  background: var(--surface2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 4px;
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  width: 0%;
+}
+
+.progress-text {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.progress-text span.active { color: var(--accent); font-weight: 600; }
+
+/* Sections */
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  animation: slideUp 0.5s ease;
+}
+
+.section-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  color: white;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.section h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.section .subtitle {
+  color: var(--text2);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* Form elements */
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 8px;
+}
+
+.field label .required {
+  color: var(--accent);
+  margin-left: 2px;
+}
+
+.field input[type="text"],
+.field input[type="url"],
+.field input[type="number"],
+.field textarea,
+.field select {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  outline: none;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255,51,51,0.15);
+}
+
+.field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.field .hint {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 6px;
+}
+
+.field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+/* Checkbox grid */
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.checkbox-item:hover {
+  border-color: var(--accent);
+}
+
+.checkbox-item.checked {
+  border-color: var(--accent);
+  background: rgba(255,51,51,0.08);
+}
+
+.checkbox-item input {
+  display: none;
+}
+
+.checkbox-item .check {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.checkbox-item.checked .check {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkbox-item.checked .check::after {
+  content: '✓';
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.checkbox-item .icon { font-size: 18px; }
+.checkbox-item span:last-child { font-size: 14px; font-weight: 500; }
+
+/* Two columns */
+.two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .two-cols { grid-template-columns: 1fr; }
+  .checkbox-grid { grid-template-columns: 1fr; }
+}
+
+/* Color picker */
+.color-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.color-row input[type="color"] {
+  -webkit-appearance: none;
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  background: none;
+  padding: 2px;
+}
+
+.color-row input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+.color-row input[type="color"]::-webkit-color-swatch { border: none; border-radius: 7px; }
+
+.color-row input[type="text"] {
+  width: 120px;
+  text-align: center;
+  font-family: 'Sora', monospace;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  width: 100%;
+  justify-content: center;
+  font-size: 16px;
+  padding: 18px;
+}
+
+.btn-primary:hover {
+  background: #e62e2e;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(255,51,51,0.3);
+}
+
+.btn-secondary {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+}
+
+.btn-copy {
+  background: var(--success);
+  color: white;
+  width: 100%;
+  justify-content: center;
+  font-size: 16px;
+  padding: 18px;
+}
+
+.btn-copy:hover {
+  background: #45a049;
+}
+
+/* Output */
+.output-box {
+  display: none;
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  padding: 32px;
+  margin-top: 32px;
+  animation: slideUp 0.5s ease;
+}
+
+.output-box h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+.output-content {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text2);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.output-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.copied-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--success);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  z-index: 999;
+  transition: transform 0.3s ease;
+}
+
+.copied-toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Animations */
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="container">
+
+  <div class="header">
+    <div class="badge">📋 Onboarding</div>
+    <h1>Comando Social — <span>MAM</span></h1>
+    <p>Completa este formulario para configurar el sistema de gestión de redes sociales de Multiaccesorios Medellín.</p>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text">
+      <span id="progressLabel">0 de 7 secciones</span>
+      <span id="progressPct">0%</span>
+    </div>
+  </div>
+
+  <form id="mamForm" onsubmit="return false;">
+
+    <!-- SECTION 1: IDENTIDAD -->
+    <div class="section" data-section="1">
+      <div class="section-number">1</div>
+      <h2>🏢 Identidad de Marca</h2>
+      <p class="subtitle">Información básica de Multiaccesorios Medellín</p>
+
+      <div class="field">
+        <label>Nombre completo de la empresa <span class="required">*</span></label>
+        <input type="text" id="nombre" value="Multiaccesorios Medellín" required>
+      </div>
+
+      <div class="field">
+        <label>Nombre corto / Sigla</label>
+        <input type="text" id="sigla" value="MAM">
+      </div>
+
+      <div class="field">
+        <label>Slogan o tagline</label>
+        <input type="text" id="slogan" placeholder="Ej: Ilumina tu camino, Luces que transforman...">
+        <div class="hint">Si no tienen uno, déjalo en blanco y lo creamos después.</div>
+      </div>
+
+      <div class="field">
+        <label>Descripción corta del negocio <span class="required">*</span></label>
+        <textarea id="descripcion" placeholder="¿Qué hace MAM? ¿A quién le vende? ¿Qué los diferencia?">Lujos y accesorios para vehículos en Medellín. Especialistas en luces LED para motos, carros, buses, tractomulas, NPR, NKR. También papel ahumado y CarPlay.</textarea>
+      </div>
+
+      <div class="two-cols">
+        <div class="field">
+          <label>Ciudad</label>
+          <input type="text" id="ciudad" value="Medellín, Colombia">
+        </div>
+        <div class="field">
+          <label>Dirección o zona (opcional)</label>
+          <input type="text" id="direccion" placeholder="Ej: Centro, Barrio Triste, etc.">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Teléfono / WhatsApp de contacto</label>
+        <input type="text" id="telefono" placeholder="+57 3XX XXX XXXX">
+      </div>
+    </div>
+
+    <!-- SECTION 2: REDES SOCIALES -->
+    <div class="section" data-section="2">
+      <div class="section-number">2</div>
+      <h2>📱 Redes Sociales</h2>
+      <p class="subtitle">¿En qué plataformas está MAM?</p>
+
+      <div class="field">
+        <label>Selecciona las redes activas <span class="required">*</span></label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="redes" value="instagram" checked>
+            <div class="check"></div>
+            <span class="icon">📸</span>
+            <span>Instagram</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="redes" value="tiktok" checked>
+            <div class="check"></div>
+            <span class="icon">🎵</span>
+            <span>TikTok</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="redes" value="youtube">
+            <div class="check"></div>
+            <span class="icon">▶️</span>
+            <span>YouTube</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="redes" value="facebook">
+            <div class="check"></div>
+            <span class="icon">📘</span>
+            <span>Facebook</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>@ de Instagram</label>
+        <input type="text" id="igHandle" placeholder="@multiaccesoriosmedellin">
+      </div>
+
+      <div class="field">
+        <label>@ de TikTok</label>
+        <input type="text" id="ttHandle" placeholder="@multiaccesoriosmedellin">
+      </div>
+
+      <div class="field">
+        <label>@ de YouTube (si aplica)</label>
+        <input type="text" id="ytHandle" placeholder="@MAMmedellin">
+      </div>
+
+      <div class="field">
+        <label>URL de Facebook (si aplica)</label>
+        <input type="url" id="fbUrl" placeholder="https://facebook.com/...">
+      </div>
+
+      <div class="field">
+        <label>Página web (si tiene)</label>
+        <input type="url" id="webUrl" placeholder="https://...">
+      </div>
+    </div>
+
+    <!-- SECTION 3: MÉTRICAS ACTUALES -->
+    <div class="section" data-section="3">
+      <div class="section-number">3</div>
+      <h2>📊 Métricas Actuales</h2>
+      <p class="subtitle">Números reales de hoy. Esto nos ayuda a definir metas realistas.</p>
+
+      <h3 style="color:var(--accent);font-family:'Sora';font-size:16px;margin-bottom:16px;">Instagram</h3>
+      <div class="two-cols">
+        <div class="field">
+          <label>Seguidores actuales</label>
+          <input type="number" id="igSeguidores" placeholder="0">
+        </div>
+        <div class="field">
+          <label>Publicaciones totales</label>
+          <input type="number" id="igPosts" placeholder="0">
+        </div>
+      </div>
+      <div class="two-cols">
+        <div class="field">
+          <label>Views últimos 30 días</label>
+          <input type="number" id="igViews" placeholder="0">
+        </div>
+        <div class="field">
+          <label>Mejor publicación (views)</label>
+          <input type="number" id="igBest" placeholder="0">
+        </div>
+      </div>
+
+      <h3 style="color:var(--accent);font-family:'Sora';font-size:16px;margin:24px 0 16px;">TikTok</h3>
+      <div class="two-cols">
+        <div class="field">
+          <label>Seguidores actuales</label>
+          <input type="number" id="ttSeguidores" placeholder="0">
+        </div>
+        <div class="field">
+          <label>Videos publicados</label>
+          <input type="number" id="ttVideos" placeholder="0">
+        </div>
+      </div>
+      <div class="two-cols">
+        <div class="field">
+          <label>Views última semana</label>
+          <input type="number" id="ttViews" placeholder="0">
+        </div>
+        <div class="field">
+          <label>Mejor video (views)</label>
+          <input type="number" id="ttBest" placeholder="0">
+        </div>
+      </div>
+      <div class="field">
+        <label>Total de likes en el perfil</label>
+        <input type="number" id="ttLikes" placeholder="0">
+      </div>
+    </div>
+
+    <!-- SECTION 4: BRANDING VISUAL -->
+    <div class="section" data-section="4">
+      <div class="section-number">4</div>
+      <h2>🎨 Branding Visual</h2>
+      <p class="subtitle">Colores y estilo visual de MAM para el dashboard.</p>
+
+      <div class="field">
+        <label>Color principal (fondo o dominante)</label>
+        <div class="color-row">
+          <input type="color" id="color1" value="#0A0A0A" onchange="document.getElementById('color1Text').value=this.value">
+          <input type="text" id="color1Text" value="#0A0A0A" onchange="document.getElementById('color1').value=this.value">
+          <span style="color:var(--text3);font-size:13px;">Ej: negro, blanco, azul oscuro</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Color de acento (botones, highlights)</label>
+        <div class="color-row">
+          <input type="color" id="color2" value="#FF3333" onchange="document.getElementById('color2Text').value=this.value">
+          <input type="text" id="color2Text" value="#FF3333" onchange="document.getElementById('color2').value=this.value">
+          <span style="color:var(--text3);font-size:13px;">El color que más identifica a MAM</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Color secundario (opcional)</label>
+        <div class="color-row">
+          <input type="color" id="color3" value="#FFFFFF" onchange="document.getElementById('color3Text').value=this.value">
+          <input type="text" id="color3Text" value="#FFFFFF" onchange="document.getElementById('color3').value=this.value">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>¿Tienen logo? Describe cómo es o pega un link a la imagen</label>
+        <input type="text" id="logoDesc" placeholder="Ej: Letras MAM en rojo sobre fondo negro, con una luz LED">
+      </div>
+
+      <div class="field">
+        <label>Estilo visual que los representa</label>
+        <select id="estilo">
+          <option value="">Selecciona...</option>
+          <option value="agresivo">Agresivo / Deportivo (velocidad, potencia)</option>
+          <option value="premium">Premium / Elegante (lujo, exclusividad)</option>
+          <option value="urbano">Urbano / Street (ciudad, noche)</option>
+          <option value="tecnico">Técnico / Profesional (confianza, precisión)</option>
+          <option value="neon">Neón / Futurista (luces, tecnología)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SECTION 5: PRODUCTOS Y SERVICIOS -->
+    <div class="section" data-section="5">
+      <div class="section-number">5</div>
+      <h2>🔧 Productos y Servicios</h2>
+      <p class="subtitle">¿Qué vende MAM? Esto define las categorías de contenido.</p>
+
+      <div class="field">
+        <label>Selecciona los productos/servicios principales <span class="required">*</span></label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="productos" value="luces-led" checked>
+            <div class="check"></div>
+            <span class="icon">💡</span>
+            <span>Luces LED</span>
+          </label>
+          <label class="checkbox-item checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="productos" value="papel-ahumado" checked>
+            <div class="check"></div>
+            <span class="icon">🪟</span>
+            <span>Papel ahumado</span>
+          </label>
+          <label class="checkbox-item checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="productos" value="carplay" checked>
+            <div class="check"></div>
+            <span class="icon">📱</span>
+            <span>CarPlay</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="productos" value="audio">
+            <div class="check"></div>
+            <span class="icon">🔊</span>
+            <span>Audio / Sonido</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="productos" value="alarmas">
+            <div class="check"></div>
+            <span class="icon">🔒</span>
+            <span>Alarmas / Seguridad</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="productos" value="tapiceria">
+            <div class="check"></div>
+            <span class="icon">🪑</span>
+            <span>Tapicería</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Otros productos o servicios (separados por coma)</label>
+        <input type="text" id="otrosProductos" placeholder="Ej: exploradoras, barras LED, accesorios cromados...">
+      </div>
+
+      <div class="field">
+        <label>Tipos de vehículos que más atienden <span class="required">*</span></label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="vehiculos" value="motos" checked>
+            <div class="check"></div>
+            <span class="icon">🏍️</span>
+            <span>Motos</span>
+          </label>
+          <label class="checkbox-item checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="vehiculos" value="carros" checked>
+            <div class="check"></div>
+            <span class="icon">🚗</span>
+            <span>Carros</span>
+          </label>
+          <label class="checkbox-item checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="vehiculos" value="camiones" checked>
+            <div class="check"></div>
+            <span class="icon">🚛</span>
+            <span>Camiones / Tractomulas</span>
+          </label>
+          <label class="checkbox-item checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="vehiculos" value="npr-nkr" checked>
+            <div class="check"></div>
+            <span class="icon">🚚</span>
+            <span>NPR / NKR</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="vehiculos" value="buses">
+            <div class="check"></div>
+            <span class="icon">🚌</span>
+            <span>Buses</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>¿Cuál es el producto estrella / más vendido?</label>
+        <input type="text" id="productoEstrella" placeholder="Ej: Luces LED para moto Pulsar, CarPlay universal...">
+      </div>
+
+      <div class="field">
+        <label>Rango de precios (para referencia en captions)</label>
+        <input type="text" id="precios" placeholder="Ej: Luces desde $50,000 COP, CarPlay desde $350,000 COP">
+      </div>
+    </div>
+
+    <!-- SECTION 6: CONTENIDO -->
+    <div class="section" data-section="6">
+      <div class="section-number">6</div>
+      <h2>🎬 Estrategia de Contenido</h2>
+      <p class="subtitle">¿Qué tipo de contenido funciona mejor y qué quieren lograr?</p>
+
+      <div class="field">
+        <label>¿Qué tipo de contenido ha funcionado mejor hasta ahora?</label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="contenido" value="instalaciones">
+            <div class="check"></div>
+            <span class="icon">🔧</span>
+            <span>Instalaciones en vivo</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="contenido" value="antes-despues">
+            <div class="check"></div>
+            <span class="icon">✨</span>
+            <span>Antes y después</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="contenido" value="producto">
+            <div class="check"></div>
+            <span class="icon">📦</span>
+            <span>Mostrar producto</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="contenido" value="noche">
+            <div class="check"></div>
+            <span class="icon">🌙</span>
+            <span>Videos de noche (luces)</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="contenido" value="tips">
+            <div class="check"></div>
+            <span class="icon">💡</span>
+            <span>Tips / Tutoriales</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="contenido" value="satisfying">
+            <div class="check"></div>
+            <span class="icon">🤩</span>
+            <span>Videos satisfying</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>¿Cuántos videos/posts pueden crear por semana?</label>
+        <select id="frecuencia">
+          <option value="">Selecciona...</option>
+          <option value="1-2">1-2 por semana</option>
+          <option value="3-4">3-4 por semana</option>
+          <option value="5-7">5-7 por semana (diario)</option>
+          <option value="7+">Más de 7 por semana</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>¿Quién graba el contenido?</label>
+        <select id="grabador">
+          <option value="">Selecciona...</option>
+          <option value="christina">Christina</option>
+          <option value="tecnico">El técnico que instala</option>
+          <option value="dueno">El dueño</option>
+          <option value="varios">Varias personas</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Mejor hora para publicar (cuando los clientes están activos)</label>
+        <div class="two-cols">
+          <div>
+            <label style="font-size:11px;">Hora TikTok</label>
+            <input type="text" id="horaTT" placeholder="Ej: 7:00 PM">
+          </div>
+          <div>
+            <label style="font-size:11px;">Hora Instagram</label>
+            <input type="text" id="horaIG" placeholder="Ej: 8:00 PM">
+          </div>
+        </div>
+        <div class="hint">Si no saben, dejar en blanco. Lo optimizamos con datos después.</div>
+      </div>
+
+      <div class="field">
+        <label>Tono de comunicación de MAM</label>
+        <select id="tono">
+          <option value="">Selecciona...</option>
+          <option value="callejero">Callejero / Informal (parcero, ¡qué chimba!)</option>
+          <option value="profesional">Profesional pero cercano</option>
+          <option value="tecnico">Técnico / Experto (datos, especificaciones)</option>
+          <option value="aspiracional">Aspiracional / Lifestyle (lujo, exclusividad)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SECTION 7: METAS -->
+    <div class="section" data-section="7">
+      <div class="section-number">7</div>
+      <h2>🎯 Metas y Objetivos</h2>
+      <p class="subtitle">¿Qué quiere lograr MAM con redes sociales?</p>
+
+      <div class="field">
+        <label>Objetivo principal <span class="required">*</span></label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="metas" value="ventas">
+            <div class="check"></div>
+            <span class="icon">💰</span>
+            <span>Más ventas directas</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="metas" value="reconocimiento">
+            <div class="check"></div>
+            <span class="icon">👁️</span>
+            <span>Reconocimiento de marca</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="metas" value="comunidad">
+            <div class="check"></div>
+            <span class="icon">👥</span>
+            <span>Crear comunidad</span>
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="metas" value="whatsapp">
+            <div class="check"></div>
+            <span class="icon">💬</span>
+            <span>Llevar gente a WhatsApp</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Meta de seguidores en 3 meses</label>
+        <div class="two-cols">
+          <div>
+            <label style="font-size:11px;">Instagram</label>
+            <input type="number" id="metaIG" placeholder="Ej: 500">
+          </div>
+          <div>
+            <label style="font-size:11px;">TikTok</label>
+            <input type="number" id="metaTT" placeholder="Ej: 1000">
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>¿Algo más que debamos saber sobre MAM?</label>
+        <textarea id="notas" placeholder="Cualquier información adicional: competencia, eventos próximos, promociones, lo que sea..."></textarea>
+      </div>
+    </div>
+
+    <!-- GENERATE BUTTON -->
+    <button type="button" class="btn btn-primary" onclick="generateOutput()">
+      🚀 Generar Configuración para Comando Social
+    </button>
+
+  </form>
+
+  <!-- OUTPUT -->
+  <div class="output-box" id="outputBox">
+    <h2>✅ Configuración lista</h2>
+    <p style="color:var(--text2);margin-bottom:16px;">Copia todo el texto de abajo y pégalo en Claude para crear el Comando Social de MAM.</p>
+    <div class="output-content" id="outputContent"></div>
+    <div class="output-actions">
+      <button class="btn btn-copy" onclick="copyOutput()">📋 Copiar todo al portapapeles</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="copied-toast" id="toast">✅ ¡Copiado al portapapeles!</div>
+
+<script>
+function toggleCheck(el) {
+  const cb = el.querySelector('input[type="checkbox"]');
+  cb.checked = !cb.checked;
+  el.classList.toggle('checked', cb.checked);
+  updateProgress();
+}
+
+// Initialize checked states
+document.querySelectorAll('.checkbox-item').forEach(item => {
+  const cb = item.querySelector('input');
+  if (cb.checked) item.classList.add('checked');
+});
+
+function updateProgress() {
+  const sections = 7;
+  let filled = 0;
+  if (document.getElementById('nombre').value) filled++;
+  if (document.querySelectorAll('[name="redes"]:checked').length > 0) filled++;
+  const metricsFields = ['igSeguidores','ttSeguidores'];
+  if (metricsFields.some(id => document.getElementById(id).value)) filled++;
+  if (document.getElementById('color2').value !== '#000000') filled++;
+  if (document.querySelectorAll('[name="productos"]:checked').length > 0) filled++;
+  if (document.getElementById('frecuencia').value) filled++;
+  if (document.querySelectorAll('[name="metas"]:checked').length > 0) filled++;
+
+  const pct = Math.round((filled / sections) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = filled + ' de ' + sections + ' secciones';
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+// Track changes
+document.querySelectorAll('input, textarea, select').forEach(el => {
+  el.addEventListener('change', updateProgress);
+  el.addEventListener('input', updateProgress);
+});
+
+function getCheckedValues(name) {
+  return Array.from(document.querySelectorAll(`[name="${name}"]:checked`)).map(cb => cb.value);
+}
+
+function val(id) { return document.getElementById(id)?.value?.trim() || ''; }
+
+function generateOutput() {
+  const data = {
+    nombre: val('nombre'),
+    sigla: val('sigla'),
+    slogan: val('slogan'),
+    descripcion: val('descripcion'),
+    ciudad: val('ciudad'),
+    direccion: val('direccion'),
+    telefono: val('telefono'),
+    redes: getCheckedValues('redes'),
+    igHandle: val('igHandle'),
+    ttHandle: val('ttHandle'),
+    ytHandle: val('ytHandle'),
+    fbUrl: val('fbUrl'),
+    webUrl: val('webUrl'),
+    igSeguidores: val('igSeguidores'),
+    igPosts: val('igPosts'),
+    igViews: val('igViews'),
+    igBest: val('igBest'),
+    ttSeguidores: val('ttSeguidores'),
+    ttVideos: val('ttVideos'),
+    ttViews: val('ttViews'),
+    ttBest: val('ttBest'),
+    ttLikes: val('ttLikes'),
+    color1: val('color1'),
+    color2: val('color2'),
+    color3: val('color3'),
+    logoDesc: val('logoDesc'),
+    estilo: val('estilo'),
+    productos: getCheckedValues('productos'),
+    otrosProductos: val('otrosProductos'),
+    vehiculos: getCheckedValues('vehiculos'),
+    productoEstrella: val('productoEstrella'),
+    precios: val('precios'),
+    contenido: getCheckedValues('contenido'),
+    frecuencia: val('frecuencia'),
+    grabador: val('grabador'),
+    horaTT: val('horaTT'),
+    horaIG: val('horaIG'),
+    tono: val('tono'),
+    metas: getCheckedValues('metas'),
+    metaIG: val('metaIG'),
+    metaTT: val('metaTT'),
+    notas: val('notas'),
+  };
+
+  const output = `CONFIGURACIÓN COMANDO SOCIAL — MAM (Multiaccesorios Medellín)
+Generado: ${new Date().toLocaleDateString('es-CO')}
+================================================================
+
+1. IDENTIDAD DE MARCA
+- Nombre: ${data.nombre}
+- Sigla: ${data.sigla}
+- Slogan: ${data.slogan || '(Por definir)'}
+- Descripción: ${data.descripcion}
+- Ciudad: ${data.ciudad}
+- Dirección: ${data.direccion || '(No especificada)'}
+- WhatsApp: ${data.telefono || '(No especificado)'}
+
+2. REDES SOCIALES ACTIVAS
+- Plataformas: ${data.redes.join(', ')}
+- Instagram: ${data.igHandle || '(No especificado)'}
+- TikTok: ${data.ttHandle || '(No especificado)'}
+- YouTube: ${data.ytHandle || '(No aplica)'}
+- Facebook: ${data.fbUrl || '(No aplica)'}
+- Web: ${data.webUrl || '(No tiene)'}
+
+3. MÉTRICAS ACTUALES
+Instagram:
+  - Seguidores: ${data.igSeguidores || '0'}
+  - Publicaciones: ${data.igPosts || '0'}
+  - Views/mes: ${data.igViews || '0'}
+  - Mejor post: ${data.igBest || '0'} views
+
+TikTok:
+  - Seguidores: ${data.ttSeguidores || '0'}
+  - Videos: ${data.ttVideos || '0'}
+  - Views/semana: ${data.ttViews || '0'}
+  - Mejor video: ${data.ttBest || '0'} views
+  - Likes totales: ${data.ttLikes || '0'}
+
+4. BRANDING VISUAL
+- Color principal: ${data.color1}
+- Color acento: ${data.color2}
+- Color secundario: ${data.color3}
+- Logo: ${data.logoDesc || '(No descrito)'}
+- Estilo visual: ${data.estilo || '(No seleccionado)'}
+
+5. PRODUCTOS Y SERVICIOS
+- Productos principales: ${data.productos.join(', ')}
+- Otros: ${data.otrosProductos || '(Ninguno)'}
+- Vehículos: ${data.vehiculos.join(', ')}
+- Producto estrella: ${data.productoEstrella || '(No especificado)'}
+- Rango precios: ${data.precios || '(No especificado)'}
+
+6. ESTRATEGIA DE CONTENIDO
+- Contenido que funciona: ${data.contenido.join(', ') || '(No seleccionado)'}
+- Frecuencia: ${data.frecuencia || '(No definida)'}
+- Quién graba: ${data.grabador || '(No definido)'}
+- Hora TikTok: ${data.horaTT || '(Por optimizar)'}
+- Hora Instagram: ${data.horaIG || '(Por optimizar)'}
+- Tono: ${data.tono || '(No definido)'}
+
+7. METAS Y OBJETIVOS
+- Objetivos: ${data.metas.join(', ') || '(No seleccionados)'}
+- Meta seguidores IG (3 meses): ${data.metaIG || '(No definida)'}
+- Meta seguidores TikTok (3 meses): ${data.metaTT || '(No definida)'}
+- Notas adicionales: ${data.notas || '(Ninguna)'}
+
+================================================================
+INSTRUCCIÓN PARA CLAUDE: Usa esta información para agregar la marca
+MAM al Comando Social existente en c:\\xampp\\htdocs\\axonia\\social\\
+con un selector de marca (Axonia Biotech / MAM) que cambie todo el
+dashboard según la marca seleccionada.
+================================================================`;
+
+  document.getElementById('outputContent').textContent = output;
+  document.getElementById('outputBox').style.display = 'block';
+  document.getElementById('outputBox').scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyOutput() {
+  const text = document.getElementById('outputContent').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  });
+}
+
+updateProgress();
+</script>
+</body>
+</html>
